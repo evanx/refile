@@ -3,7 +3,9 @@
 
 Redis-managed content archiver, suitable for web-scale publishing of slowly changing JSON data, in a simple and robust fashion.
 
-This service archives JSON documents to BLOB storage. From there it can be published e.g. via CloudFlare CDN using Nginx. Information required to lookup, query and aggregate data would be stored in Redis for simplicity and in-memory speed. However "large" JSON are archived to disk-based storage. They are deleted from Redis and served e.g. via Nginx. That provides scalability and resilience, especially in conjunction with a CDN such as CloudFlare.
+This service archives JSON documents to BLOB storage. From said storage, that collection of JSON documents can be published via HTTP e.g. via CloudFlare CDN using Nginx.
+
+Information required to lookup, query and aggregate data would be stored in Redis for simplicity and in-memory speed. However "large" JSON documents are archived to disk-based storage and fetched via HTTP. They are deleted from Redis, to minimise unnecessary RAM usage.
 
 ## Config
 
