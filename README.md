@@ -84,9 +84,9 @@ $ zcat data/time/2017-01-29/18h12m07/evanxsummers.json.gz
 }
 ```
 
-Incidently, the timestamp is the archive time. Subsequent updates in the same second might overwrite the timestamped copy. Alternatively the service might reschedule the archival for a subsequent time. However this solution is intended for slowly changing content that is published to the web, and benefits from CDN caching for many seconds or even minutes.
+Incidently, the timestamp is the archive time. Subsequent updates in the same second might overwrite the timestamped copy. Alternatively the service might reschedule the archival for a subsequent time. However this solution is intended for slowly changing content that is published to the web, benefits from CDN caching for many seconds or even minutes, and is not typically updated multiple times per second.
 
-The SHA and timestamp for each archival is recorded in Redis against the current snapshot ID. That data in Redis, together with the above files, should be sufficient to enable another service to create a snapshot, e.g. for recovery.
+The SHA and timestamp for each archival is recorded in Redis against the current snapshot ID. That data in Redis, together with the above files, should be sufficient to enable another service to create a snapshot, e.g. for recovery. Clearly another service is required to prune the BLOB store, e.g. remove files from an older snapshot that is no longer required.
 
 
 ## Implementation
