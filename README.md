@@ -3,7 +3,9 @@
 
 Redis-managed content archiver, suitable for web-scale publishing of slowly changing JSON data, in a simple and robust fashion.
 
-This service archives JSON documents from Redis to BLOB storage. That collection of JSON documents can be published via HTTP e.g. via CloudFlare CDN using Nginx, or what have you.
+This service archives JSON documents from Redis to BLOB storage, via https://github.com/maxogden/abstract-blob-store
+
+That collection of JSON documents can be published via HTTP e.g. via CloudFlare CDN using Nginx, or what have you.
 
 Information required to lookup, query and aggregate data would be stored in Redis for simplicity and in-memory speed. However "large" JSON documents are archived to disk-based storage and fetched via HTTP. They are deleted from Redis, to minimise RAM requirements.
 
@@ -61,20 +63,31 @@ where in this case, R8 will remove the JSON file.
 
 For example the following files are written to storage:
 ```
-data/key/evan/xsum/mers/evanxsummers.json
-data/sha/feEfRF/o51vn0/5Dllex/z_eIQR/feEfRFo51vn05Dllexz_eIQR4f4.evanxsummers.json.gz
-data/time/2017-01-29/18h05m45/evanxsummers.json.gz
+data/key/evanxs/ummers/evanxsummers.json
+data/sha/feEfRF/o51vn0/5Dllex/z6eIQR/feEfRFo51vn05Dllexz6eIQR4f4.evanxsummers.json.gz
+data/time/2017-01-29/18h12m07/evanxsummers.json.gz
+```
+where the first file in `data/key/` is the current version of the document.
+
+Note that the path is split up with `/` so that when using a simple file system as BLOB storage, there will be a limited number of files in each subdirectory, for practical reasons.
+
+Additionally two (compressed) historical versions are stored:
+- a copy named according to the SHA of the contents
+- a copy named for the time that the content was archived
+
+With the exception of the "current" (uncompressed) version, these names are intended to be unique and the files immutable, i.e. not overwritten by subsequent updates. As such historical versions can be inspected and recovered.
+
+```sh
+$ zcat data/time/2017-01-29/18h12m07/evanxsummers.json.gz
+{
+  "twitter": "@evanxsummers"
+}
 ```
 
-where the first file is the current version of the document.
+Incidently, the timestamp is the archive time. Subsequent updates in the same second might overwrite the timestamped copy. Alternatively the service might reschedule the archival for a subsequent time. However this solution is intended for slowly changing content that is published to the web, and benefits from CDN caching for many seconds or even minutes.
 
-Additionally two (compressed) historical versions are store:
-- a copy named according to the SHA of the contents
-- a copy name for the time that the content was modified
+The SHA and timestamp for each archival is recorded in Redis against the current snapshot ID. That data in Redis, together with the above files, should be sufficient to enable another service to create a snapshot, e.g. for recovery.
 
-With the except of the "current" version, these documents are clearly unique and not overwritten by subsequent updates. As such historical versions can be inspected and recovered.
-
-The SHA of a specific document is recorded against the current snapshot ID, and it's modtime. That data in Redis, together with the above files, should be sufficient to enable another service to create a snapshot, e.g. for recovery.
 
 ## Implementation
 
