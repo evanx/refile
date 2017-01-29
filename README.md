@@ -48,7 +48,6 @@ redis-cli lpush r8:q evanxsummers
 ```
 
 This utility will read the JSON content from Redis and write it to BLOB storage e.g. the file system.
-
 The JSON content can then be served via static web server e.g. Nginx, via CDN, or what have you.
 
 A document that has been deleted can similarly be pushed to this queue:
