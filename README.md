@@ -104,7 +104,7 @@ while (true) {
 
 We record the following in Redis:
 ```javascript
-    multi.zadd(`r8:key:${key}:z`, time, sha);
+    multi.zadd(`r8:key:${key}:z`, timestamp, sha);
     multi.hset(`r8:sha:h`, key, sha);
     multi.hset(`r8:${config.snapshotId}:sha:h`, key, sha);
     multi.srem(`r8:${config.snapshotId}:rem:s`, key);
@@ -114,6 +114,7 @@ We record the following in Redis:
     } else {
         multi.del(key);            
 ```            
+where the `sha` of the `key` is stored for the snapshot, and also the historical SHA's for a specific key are recorded in a sorted set using the `timestamp.`
 
 If the specified Redis keys does not exist, we can assume it was deleted. In this case we record the following in Redis:
 ```javascript
