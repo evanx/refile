@@ -3,7 +3,7 @@
 
 Redis-managed content archiver, suitable for web-scale publishing of slowly changing JSON data, in a simple and robust fashion.
 
-This service archives JSON documents from Redis to BLOB storage, via https://github.com/maxogden/abstract-blob-store
+This service archives JSON documents from Redis to BLOB storage, as per https://github.com/maxogden/abstract-blob-store
 
 That collection of JSON documents can be published via HTTP e.g. via CloudFlare CDN using Nginx, or what have you.
 
