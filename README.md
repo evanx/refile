@@ -88,7 +88,7 @@ Incidently, the timestamp is the archive time. Subsequent updates in the same se
 
 The SHA and timestamp for each archival is recorded in Redis against the current snapshot ID. That data in Redis, together with the above files, should be sufficient to enable another service to create a snapshot, e.g. for recovery. Clearly another service is required to prune the BLOB store, e.g. remove files from an older snapshot that is no longer required.
 
-Another service will serve a specific snapshot from the same blob store, by looking up the corresponding SHA (version) for the requested document. Incidently, they can be streaming as is in `gzip` by the HTTP server, assuming the client accepts `gzip` encoding.
+Another service will serve a specific snapshot from the same blob store, by looking up the corresponding SHA (version) from Redis for the requested document. Incidently, they can be streamed as is in `gzip` by the HTTP server, assuming the client accepts `gzip` encoding.
 
 
 ## Implementation
