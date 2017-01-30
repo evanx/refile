@@ -16,7 +16,7 @@ Data required to lookup, query and aggregate our data would be stored in Redis f
 See `lib/config.js`
 ```javascript
 module.exports = {
-    description: 'Utility to archive Redis JSON keys to blob storage.',
+    description: 'Utility to archive Redis JSON keys to BLOB storage.',
     required: {
         blobStore: {
             description: 'the BLOB store options e.g. directory for file storage',
@@ -107,9 +107,11 @@ See `lib/index.js`
 
 We monitor the `r8:q` input queue.
 ```javascript
-const blobStore = require(config.blobStoreType)(config.blobStore);
-while (true) {
-    const key = await client.brpoplpushAsync('r8:q', 'r8:busy:q', 1);    
+    const blobStore = require(config.blobStoreType)(config.blobStore);
+    while (true) {
+        const key = await client.brpoplpushAsync('r8:q', 'r8:busy:q', 1);    
+        ...        
+    }
 ```
 
 We record the following in Redis:
@@ -123,10 +125,11 @@ We record the following in Redis:
         multi.lpush(config.outq, key);
     } else {
         multi.del(key);            
+    }
 ```            
 where the `sha` of the `key` is stored for the snapshot, and also the historical SHA's for a specific key are recorded in a sorted set by the `timestamp.`
 
-If the specified Redis keys does not exist, we can assume it was deleted. In this case we record the following in Redis:
+If the specified Redis key does not exist, we can assume it was deleted. In this case we record the following in Redis:
 ```javascript
     multi.hdel(`r8:sha:h`, key);
     multi.hdel(`r8:${config.snapshotId}:sha:h`, key);
@@ -134,7 +137,9 @@ If the specified Redis keys does not exist, we can assume it was deleted. In thi
     multi.lrem('r8:busy:q', 1, key);
     if (config.outq) {
         multi.lpush(config.outq, key);
+    }
 ```
-where we delete current entries for this key and add it to `rem:s` for the snapshot, for recovery of its removed status for the current snapshot.
+where we delete current entries for this key and add it to `rem:s` for the snapshot, for recovery of its deleted status for the current snapshot.
+
 
 https://twitter.com/@evanxsummers
