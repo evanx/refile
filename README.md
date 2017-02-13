@@ -3,6 +3,8 @@
 
 This service archives JSON documents from Redis to disk-based BLOB storage.
 
+<img src="https://raw.githubusercontent.com/evanx/r8pub/master/docs/readme/main.png"/>
+
 ## Use case
 
 The intended use case is for publishing cacheable data to the web. Structured data is stored in Redis for simplicity and in-memory speed. However, to reduce RAM requirements, "large" JSON documents/collections are archived to disk-based storage. Those documents are typically retrieved via HTTP e.g. via Nginx.
@@ -100,6 +102,20 @@ The following related services are planned:
 - proxying web server for a specific snapshot
 
 
+## Docker
+
+You can build as follows:
+```
+docker build -t r8 https://github.com/evanx/r8.git
+```
+
+See `test/demo.sh` https://github.com/evanx/r8/blob/master/test/demo.sh
+- isolated network `test-r8-network`
+- isolated Redis instance named `test-r8-redis`
+- two `spiped` containers to test encrypt/decrypt tunnels
+- the prebuilt image `evanxsummers/r8`
+
+
 ## Implementation
 
 See `lib/index.js`
@@ -131,4 +147,5 @@ multi.sadd(`r8:${config.snapshotId}:rem:s`, key);
 ```
 where we delete current entries for this key and add it to `rem:s` for the snapshot, for recovery of its deleted status for the current snapshot.
 
+<hr>
 https://twitter.com/@evanxsummers

@@ -1,6 +1,6 @@
 {
   "name": "r8",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Telegram bot to query a web page loaded by PhantomJS.",
   "main": "src/index.js",
   "scripts": {
