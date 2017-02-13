@@ -1,5 +1,5 @@
 
-# R8
+# r8
 
 This service archives JSON documents from Redis to disk-based BLOB storage.
 
