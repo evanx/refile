@@ -55,26 +55,28 @@ The application pushes the updated key to `r8:q`
 redis-cli lpush r8:q user:evanxsummers
 ```
 
-This utility will read the JSON content from Redis and write it to BLOB storage, where it is retrievable via HTTP.
+This utility will read the JSON content from Redis and write it to BLOB storage. 
+
+Those documents are retrieved via HTTP from BLOB storage, rather than from Redis.
 
 A document that has been deleted can similarly be pushed to this queue:
 ```sh
 redis-cli del user:evanxsummers
 redis-cli lpush r8:q user:evanxsummers
 ```
-where in this case, R8 will remove the JSON file from the BLOB store.
+where in this case, r8 will remove the JSON file from the BLOB store.
 
 ### Files
 
 In the case of the key `user:evanxsummers` the following files are written to storage:
 ```
-data/key/user/evanxs/ummers/user_evanxsummers.json
-data/sha/feEfRF/o51vn0/5Dllex/z6eIQR/feEfRFo51vn05Dllexz6eIQR4f4.user_evanxsummers.json.gz
+data/key/b4e1cb/74039e/user_evanxsummers.json
+data/sha/feEfRF/o51vn0/feEfRFo51vn05Dllexz6eIQR4f4.user_evanxsummers.json.gz
 data/time/2017-01-29/18h12m07/546/user_evanxsummers.json.gz
 ```
 where the file in `data/key/` is the current version of the document to be published via HTTP.
 
-Note that the path is split up with `/` so that when using a simple file system as BLOB storage, there will be a limited number of files in each subdirectory, for practical reasons.
+Note that the path is split up with `/` so that when using a simple file system as BLOB storage, there will be a limited number of files in each subdirectory, for practical reasons. In the case of `/data/key` the path prefixes are determined from the SHA of the key itself.
 
 Additionally two (compressed) historical versions are stored:
 - a copy named according to the SHA of the contents i.e. content addressable
@@ -100,7 +102,6 @@ The following related services are planned:
 - extract a specific snapshot to BLOB storage
 - redirecting web server for a specific snapshot i.e. to the appropriate SHA file
 - proxying web server for a specific snapshot
-
 
 ## Docker
 
