@@ -1,11 +1,7 @@
 
 # R8
 
-Redis-managed JSON document archiver for simple web-scale publishing.
-
 This service archives JSON documents from Redis to disk-based BLOB storage.
-
-That collection of JSON documents can be published via HTTP e.g. using Nginx, CloudFlare CDN or what have you.
 
 ## Use case
 
@@ -57,8 +53,7 @@ The application pushes the updated key to `r8:q`
 redis-cli lpush r8:q user:evanxsummers
 ```
 
-This utility will read the JSON content from Redis and write it to BLOB storage e.g. the file system.
-In that case, the JSON content can be served via Nginx.
+This utility will read the JSON content from Redis and write it to BLOB storage, where it is retrievable via HTTP.
 
 A document that has been deleted can similarly be pushed to this queue:
 ```sh
@@ -69,13 +64,13 @@ where in this case, R8 will remove the JSON file from the BLOB store.
 
 ### Files
 
-For example, the following files are written to storage:
+In the case of the key `user:evanxsummers` the following files are written to storage:
 ```
 data/key/user/evanxs/ummers/user_evanxsummers.json
 data/sha/feEfRF/o51vn0/5Dllex/z6eIQR/feEfRFo51vn05Dllexz6eIQR4f4.user_evanxsummers.json.gz
 data/time/2017-01-29/18h12m07/546/user_evanxsummers.json.gz
 ```
-where the first file in `data/key/` is the current version of the document to be published.
+where the file in `data/key/` is the current version of the document to be published via HTTP.
 
 Note that the path is split up with `/` so that when using a simple file system as BLOB storage, there will be a limited number of files in each subdirectory, for practical reasons.
 
@@ -101,8 +96,9 @@ Incidently, the compressed content can be streamed as is in `gzip` by the HTTP s
 The following related services are planned:
 - delete an older snapshot, including related SHA files
 - extract a specific snapshot to BLOB storage
-- web server 302 redirecting to the appropriate SHA file for a specific snapshot
-- caching web server proxy to a specific snapshot
+- redirecting web server for a specific snapshot i.e. to the appropriate SHA file
+- proxying web server for a specific snapshot
+
 
 ## Implementation
 
