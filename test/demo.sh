@@ -5,7 +5,7 @@
   do
     if docker ps -q -f "name=/$name" | grep '\w'
     then
-      docker rm -f $name `docker ps -q -f "name=/$name"`
+      docker rm -f `docker ps -q -f "name=/$name"`
     fi
   done
   sleep 2
