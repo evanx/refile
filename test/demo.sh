@@ -32,10 +32,11 @@
     -e -s "[0.0.0.0]:6333" -t "[$decipherHost]:6444"`
   encipherHost=`docker inspect $encipherContainer |
     grep '"IPAddress":' | tail -1 | sed 's/.*"\([0-9\.]*\)",/\1/'`
-  redis-cli -a $password -h $encipherHost -p 6333 hset user:evanxsummers '{"twitter":"evanxsummers"}'
-  docker run --network=test-r8-network --name test-r8-app \
+  redis-cli -a $password -h $encipherHost -p 6333 set user:evanxsummers '{"twitter":"evanxsummers"}'
+  docker run --name test-r8-app -f \
+    --network=test-r8-network \
     -e host=$encipherHost -e port=6333 -e password=$password \
-    -e pattern=mytest:*:h evanxsummers/r8
+    -e evanxsummers/r8
   docker rm -f test-r8-redis test-r8-app test-r8-decipher test-r8-encipher
   docker network rm test-r8-network
 )
