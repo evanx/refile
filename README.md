@@ -79,13 +79,13 @@ where in this case, r8 will remove the JSON file from the BLOB store.
 
 In the case of the key `user:evanxsummers` the following files are written to storage:
 ```
-data/key/SY4/JOk/user-evanxsummers.json
-data/sha/gUi/NpQ/gUiWKhI8O2Kai3jXAFKhTXFWNpQ.user-evanxsummers.json.gz
-data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz
+r8data/key/SY4/JOk/user-evanxsummers.json
+r8data/sha/gUi/NpQ/gUiWKhI8O2Kai3jXAFKhTXFWNpQ.user-evanxsummers.json.gz
+r8data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz
 ```
-where the file in `data/key/` is the current version of the document to be published via HTTP.
+where the file in `r8data/key/` is the current version of the document to be published via HTTP.
 
-Note that the path is split up with `/` so that when using a simple file system as BLOB storage, there will be a limited number of files in each subdirectory, for practical reasons. In the case of `/data/key` the path prefixes are determined from the SHA of the key itself.
+Note that the path is split up with `/` so that when using a simple file system as BLOB storage, there will be a limited number of files in each subdirectory, for practical reasons. In the case of `r8data/key` the path prefixes are determined from the SHA of the key itself.
 
 Additionally two (compressed) historical versions are stored:
 - a copy named according to the SHA of the contents i.e. content addressable
