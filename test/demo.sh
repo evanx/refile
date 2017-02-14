@@ -1,6 +1,7 @@
 (
   set -u -e -x
   mkdir -p tmp
+  mkdir -p $HOME/volumes/test-r8/
   for name in test-r8-redis test-r8-app test-r8-decipher test-r8-encipher
   do
     if docker ps -a -q -f "name=/$name" | grep '\w'
@@ -20,15 +21,15 @@
       sed -e 's/^\s*redis-cli -a \(\w*\) .*$/\1/'`
   redisHost=`docker inspect $redisContainer |
       grep '"IPAddress":' | tail -1 | sed 's/.*"\([0-9\.]*\)",/\1/'`
-  dd if=/dev/urandom bs=32 count=1 > $HOME/tmp/test-spiped-keyfile
+  dd if=/dev/urandom bs=32 count=1 > $HOME/volumes/test-r8/spiped-keyfile
   decipherContainer=`docker run --network=test-r8-network \
-    --name test-r8-decipher -v $HOME/tmp/test-spiped-keyfile:/spiped/key:ro \
+    --name test-r8-decipher -v $HOME/volumes/test-r8/spiped-keyfile:/spiped/key:ro \
     -d spiped \
     -d -s "[0.0.0.0]:6444" -t "[$redisHost]:6379"`
   decipherHost=`docker inspect $decipherContainer |
     grep '"IPAddress":' | tail -1 | sed 's/.*"\([0-9\.]*\)",/\1/'`
   encipherContainer=`docker run --network=test-r8-network \
-    --name test-r8-encipher -v $HOME/tmp/test-spiped-keyfile:/spiped/key:ro \
+    --name test-r8-encipher -v $HOME/volumes/test-r8/spiped-keyfile:/spiped/key:ro \
     -d spiped \
     -e -s "[0.0.0.0]:6333" -t "[$decipherHost]:6444"`
   encipherHost=`docker inspect $encipherContainer |
@@ -36,6 +37,7 @@
   redis-cli -a $password -h $encipherHost -p 6333 set user:evanxsummers '{"twitter":"evanxsummers"}'
   docker run --name test-r8-app -d \
     --network=test-r8-network \
+    -v $HOME/volumes/test-r8/data:/data \
     -e host=$encipherHost -e port=6333 -e password=$password \
     evanxsummers/r8
   #docker rm -f test-r8-redis test-r8-app test-r8-decipher test-r8-encipher

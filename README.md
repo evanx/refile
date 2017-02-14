@@ -18,7 +18,7 @@ module.exports = {
     required: {
         blobStore: {
             description: 'the BLOB store options e.g. directory for file storage',
-            default: 'tmp/data/'
+            default: 'r8data/'
         },
         blobStoreType: {
             description: 'the BLOB store type',

@@ -1,12 +1,12 @@
 
-  ls -l `find tmp/data | grep json`
-  for json in `find tmp/data | grep json$`
+  ls -l `find r8data | grep json`
+  for json in `find r8data | grep json$`
   do
     echo $json
     cat $json
     echo
   done
-  for gz in `find tmp/data | grep json.gz$`
+  for gz in `find r8data | grep json.gz$`
   do
     echo $gz
     zcat $gz

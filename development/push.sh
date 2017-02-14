@@ -1,5 +1,5 @@
 
-  rm -rf tmp/data
+  rm -rf r8data
   echo '{"twitter": "@evanxsummers"}' | jq '.' | redis-cli -x set user:evanxsummers
   redis-cli lpush r8:q user:evanxsummers
   echo '[1, 2]' | jq '.' | redis-cli -x set test123
