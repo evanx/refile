@@ -1,7 +1,13 @@
 (
   set -u -e -x
   mkdir -p tmp
-  docker rm -f test-r8-redis test-r8-app test-r8-decipher test-r8-encipher
+  for name in test-r8-redis test-r8-app test-r8-decipher test-r8-encipher
+  do
+    if docker ps -f name=/$name 
+    then
+      docker rm -f $name `docker ps -q -f name=/$name`
+    fi
+  done
   if docker network ls | grep test-r8-network
   then
     docker network rm test-r8-network
