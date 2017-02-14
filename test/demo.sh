@@ -37,6 +37,6 @@
     --network=test-r8-network \
     -e host=$encipherHost -e port=6333 -e password=$password \
     -e evanxsummers/r8
-  docker rm -f test-r8-redis test-r8-app test-r8-decipher test-r8-encipher
-  docker network rm test-r8-network
+  #docker rm -f test-r8-redis test-r8-app test-r8-decipher test-r8-encipher
+  #docker network rm test-r8-network
 )
