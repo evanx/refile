@@ -36,13 +36,14 @@
     grep '"IPAddress":' | tail -1 | sed 's/.*"\([0-9\.]*\)",/\1/'`
   redis-cli -a $password -h $encipherHost -p 6333 set user:evanxsummers '{"twitter":"evanxsummers"}'
   redis-cli -a $password -h $encipherHost -p 6333 lpush r8:q user:evanxsummers
-  docker run --name test-r8-app -d \
+  appContainer=`docker run --name test-r8-app -d \
     --network=test-r8-network \
     -v $HOME/volumes/test-r8/data:/data \
     -e host=$encipherHost -e port=6333 -e password=$password \
-    evanxsummers/r8
+    evanxsummers/r8`
   sleep 1
-  find $HOME/volumes/test-r8/data  
+  docker logs $appContainer
+  find $HOME/volumes/test-r8/data
   #docker rm -f test-r8-redis test-r8-app test-r8-decipher test-r8-encipher
   #docker network rm test-r8-network
 )
