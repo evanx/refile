@@ -10,7 +10,7 @@
     fi
   done
   sleep 1
-  if docker network ls -q -f name=r8-network | grep '\w'
+  if docker network ls -q -f name=/r8-network | grep '\w'
   then
     docker network rm r8-network
   fi
