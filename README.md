@@ -37,7 +37,7 @@ module.exports = {
             default: 1
         },
         outq: {
-            description: 'the output queue for processed keys',
+            description: 'the output queue for archived keys',
             required: false
         },
         expire: {
