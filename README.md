@@ -120,11 +120,11 @@ docker build -t r8 https://github.com/evanx/r8.git
 ```
 
 See `test/demo.sh` https://github.com/evanx/r8/blob/master/test/demo.sh
-- isolated network `test-r8-network`
-- isolated Redis instance named `test-r8-redis`
+- isolated network `r8-network`
+- isolated Redis instance named `r8-redis`
 - two `spiped` containers to test encrypt/decrypt tunnels
 - the prebuilt image `evanxsummers/r8`
-- host volume `$HOME/volumes/test-r8/data`
+- host volume `$HOME/volumes/r8/data`
 
 
 ## Implementation
