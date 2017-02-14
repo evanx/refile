@@ -1,9 +1,9 @@
 (
   set -u -e -x
   mkdir -p tmp
+  docker rm -f test-r8-redis test-r8-app test-r8-decipher test-r8-encipher
   if docker network ls | grep test-r8-network
   then
-    docker ps -q -f name=test-r8-redis | xargs -n 1 docker rm -f
     docker network rm test-r8-network
   fi
   docker network create -d bridge test-r8-network
