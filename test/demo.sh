@@ -8,7 +8,7 @@
       docker rm -f `docker ps -q -f "name=/$name"`
     fi
   done
-  sleep 2
+  sleep 1
   if docker network ls | grep test-r8-network
   then
     docker network rm test-r8-network
@@ -37,7 +37,7 @@
   docker run --name test-r8-app -d \
     --network=test-r8-network \
     -e host=$encipherHost -e port=6333 -e password=$password \
-    -e evanxsummers/r8
+    evanxsummers/r8
   #docker rm -f test-r8-redis test-r8-app test-r8-decipher test-r8-encipher
   #docker network rm test-r8-network
 )
