@@ -85,7 +85,7 @@ Additionally two (compressed) historical versions are stored:
 These gzipped files are intended to be unique and immutable, i.e. not overwritten by subsequent updates. The SHA files are intended for versioning, and the timestamped copies are useful for debugging.
 
 ```sh
-$ zcat data/time/2017-01-29/18h12m07/546/user_evanxsummers.json.gz | jq '.'
+$ zcat r8data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz | jq '.'
 {
   "twitter": "@evanxsummers"
 }
