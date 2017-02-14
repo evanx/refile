@@ -18,7 +18,7 @@ module.exports = {
     required: {
         blobStore: {
             description: 'the BLOB store options e.g. directory for file storage',
-            default: 'r8data/'
+            default: 'data/'
         },
         blobStoreType: {
             description: 'the BLOB store type',
@@ -79,7 +79,7 @@ where in this case, r8 will remove the JSON file from the BLOB store.
 
 In the case of the key `user:evanxsummers` the following files are written to storage:
 ```
-data/key/SY4o/ZdUV/user-evanxsummers.json
+data/key/SY4o/ZdUV/user-evanxsummers.json.gz
 data/sha/gUiW/KhI8/gUiWKhI8O2Kai3jXAFKhTXFWNpQ.user-evanxsummers.json.gz
 data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz
 ```
@@ -94,14 +94,14 @@ $ echo -n 'user:evanxsummers' | openssl sha1 -binary | base64 | cut -b1-8
 SY4oZdUV
 ```
 
-Additionally two (compressed) historical versions are stored:
+Additionally two historical versions are stored:
 - a copy named according to the SHA of the contents i.e. content addressable
 - a copy named for the timestamp when the content is archived
 
-These gzipped files are intended to be immutable facts, i.e. not overwritten by subsequent updates. The SHA files are intended for versioning, and the timestamped copies are useful for debugging.
+These two files are intended to be immutable facts, i.e. not overwritten by subsequent updates. The SHA files are intended for versioning, and the timestamped copies are useful for debugging.
 
 ```sh
-$ zcat r8data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz | jq '.'
+$ zcat data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz | jq '.'
 {
   "twitter": "@evanxsummers"
 }
