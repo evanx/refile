@@ -16,13 +16,13 @@
   dd if=/dev/urandom bs=32 count=1 > $HOME/tmp/test-spiped-keyfile
   decipherContainer=`docker run --network=test-r8-network \
     --name test-r8-decipher -v $HOME/tmp/test-spiped-keyfile:/spiped/key:ro \
-    -p 6444:6444 -d spiped \
+    -d spiped \
     -d -s "[0.0.0.0]:6444" -t "[$redisHost]:6379"`
   decipherHost=`docker inspect $decipherContainer |
     grep '"IPAddress":' | tail -1 | sed 's/.*"\([0-9\.]*\)",/\1/'`
   encipherContainer=`docker run --network=test-r8-network \
     --name test-r8-encipher -v $HOME/tmp/test-spiped-keyfile:/spiped/key:ro \
-    -p 6333:6333 -d spiped \
+    -d spiped \
     -e -s "[0.0.0.0]:6333" -t "[$decipherHost]:6444"`
   encipherHost=`docker inspect $encipherContainer |
     grep '"IPAddress":' | tail -1 | sed 's/.*"\([0-9\.]*\)",/\1/'`
