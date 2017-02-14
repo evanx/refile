@@ -49,9 +49,13 @@ module.exports = {
     }
 }
 ```
-where archived keys are pushed to `outq` or set to `expire` otherwise they are deleted.
 
-That is to say, if `outq` is set, then further processing thereby might expire or delete the archived keys.
+Archived keys are actioned as follows:
+- `lpush` to `outq`
+- set to `expire`
+- if neither of the above, then they are deleted
+
+That is to say, if `outq` is set, then further processing thereby takes responsibility to expire or delete the archived keys.
 
 ## Usage
 
@@ -101,7 +105,7 @@ Additionally two historical versions are stored:
 These two files are intended to be immutable facts, i.e. not overwritten by subsequent updates. The SHA files are intended for versioning, and the timestamped copies are useful for debugging.
 
 ```sh
-$ zcat data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz | jq '.'
+$ zcat data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz | jq
 {
   "twitter": "@evanxsummers"
 }
