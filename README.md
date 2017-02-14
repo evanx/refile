@@ -70,9 +70,9 @@ where in this case, r8 will remove the JSON file from the BLOB store.
 
 In the case of the key `user:evanxsummers` the following files are written to storage:
 ```
-data/key/b4e/39e/user_evanxsummers.json
-data/sha/feE/4f4/feEfRFo51vn05Dllexz6eIQR4f4.user_evanxsummers.json.gz
-data/time/2017-01-29/18h12m07/546/user_evanxsummers.json.gz
+data/key/SY4/JOk/user-evanxsummers.json
+data/sha/gUi/NpQ/gUiWKhI8O2Kai3jXAFKhTXFWNpQ.user-evanxsummers.json.gz
+data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz
 ```
 where the file in `data/key/` is the current version of the document to be published via HTTP.
 
@@ -115,6 +115,7 @@ See `test/demo.sh` https://github.com/evanx/r8/blob/master/test/demo.sh
 - isolated Redis instance named `test-r8-redis`
 - two `spiped` containers to test encrypt/decrypt tunnels
 - the prebuilt image `evanxsummers/r8`
+- host volume `$HOME/volumes/test-r8/data`
 
 
 ## Implementation
