@@ -16,7 +16,7 @@
   fi
   docker network create -d bridge test-r8-network
   redisContainer=`docker run --network=test-r8-network \
-      --name test-r8-redis -d tutum/redis`
+      --name test-r8-redis -d redis`
   password=`docker logs $redisContainer | grep '^\s*redis-cli -a' |
       sed -e 's/^\s*redis-cli -a \(\w*\) .*$/\1/'`
   redisHost=`docker inspect $redisContainer |
