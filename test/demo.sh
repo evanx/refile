@@ -41,7 +41,7 @@
     -e host=$encipherHost \
     -e port=6333 \
     evanxsummers/r8`
-  sleep 1
+  sleep 2
   redis-cli -h $encipherHost -p 6333 llen r8:q
   docker logs $appContainer
   find $HOME/volumes/r8/data
