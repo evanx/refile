@@ -66,7 +66,7 @@ redis-cli lpush r8:q user:evanxsummers
 
 This utility will read the JSON content from Redis and write it to BLOB storage.
 
-Those documents are retrieved via HTTP from BLOB storage, rather than from Redis.
+The intention is that these documents are retrieved via HTTP sourced from that BLOB storage, rather than from Redis.
 
 A document that has been deleted can similarly be pushed to this queue:
 ```sh
