@@ -8,6 +8,7 @@
       docker rm -f $name `docker ps -q -f "name=/$name"`
     fi
   done
+  sleep 1
   if docker network ls | grep test-r8-network
   then
     docker network rm test-r8-network
