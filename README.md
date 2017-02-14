@@ -38,11 +38,20 @@ module.exports = {
         },
         outq: {
             description: 'the output queue for processed keys',
-            default: 'none'
-        }
+            required: false
+        },
+        expire: {
+            description: 'the expiry to set on archived keys',
+            unit: 'seconds',
+            example: 60,
+            required: false
+        },
     }
 }
 ```
+where archived keys are pushed to `outq` or set to `expire` otherwise they are deleted.
+
+That is to say, if `outq` is set, then further processing thereby might expire or delete the archived keys.
 
 ## Usage
 
