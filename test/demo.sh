@@ -34,7 +34,7 @@
   encipherHost=`docker inspect $encipherContainer |
     grep '"IPAddress":' | tail -1 | sed 's/.*"\([0-9\.]*\)",/\1/'`
   redis-cli -a $password -h $encipherHost -p 6333 set user:evanxsummers '{"twitter":"evanxsummers"}'
-  docker run --name test-r8-app -f \
+  docker run --name test-r8-app -d \
     --network=test-r8-network \
     -e host=$encipherHost -e port=6333 -e password=$password \
     -e evanxsummers/r8
