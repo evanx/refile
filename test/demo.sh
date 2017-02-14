@@ -3,9 +3,9 @@
   mkdir -p tmp
   for name in test-r8-redis test-r8-app test-r8-decipher test-r8-encipher
   do
-    if docker ps -q -f "name=/$name" | grep '\w'
+    if docker ps -a -q -f "name=/$name" | grep '\w'
     then
-      docker rm -f `docker ps -q -f "name=/$name"`
+      docker rm -f `docker ps -a -q -f "name=/$name"`
     fi
   done
   sleep 1
