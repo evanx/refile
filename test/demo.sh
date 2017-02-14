@@ -37,7 +37,7 @@
   redis-cli -h $encipherHost -p 6333 llen r8:q
   appContainer=`docker run --name r8-app -d \
     --network=r8-network \
-    -v $HOME/volumes/r8/data:/r8data \
+    -v $HOME/volumes/r8/data:/data \
     -e host=$encipherHost \
     -e port=6333 \
     evanxsummers/r8`

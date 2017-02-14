@@ -79,19 +79,26 @@ where in this case, r8 will remove the JSON file from the BLOB store.
 
 In the case of the key `user:evanxsummers` the following files are written to storage:
 ```
-r8data/key/SY4/JOk/user-evanxsummers.json
-r8data/sha/gUi/NpQ/gUiWKhI8O2Kai3jXAFKhTXFWNpQ.user-evanxsummers.json.gz
-r8data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz
+data/key/SY4o/ZdUV/user-evanxsummers.json
+data/sha/gUiW/KhI8/gUiWKhI8O2Kai3jXAFKhTXFWNpQ.user-evanxsummers.json.gz
+data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz
 ```
-where the file in `r8data/key/` is the current version of the document to be published via HTTP.
+where the file in `data/key/` is the current version of the document to be published via HTTP.
 
-Note that the path is split up with `/` so that when using a simple file system as BLOB storage, there will be a limited number of files in each subdirectory, for practical reasons. In the case of `r8data/key` the path prefixes are determined from the SHA of the key itself.
+Note that the path is split up with `/` so that when using a simple file system as BLOB storage,
+e.g served using Nginx, there will be a limited number of files in each subdirectory, for practical reasons.
+
+In the case of `data/key` the path prefixes are determined from the SHA of the key itself:
+```
+$ echo -n 'user:evanxsummers' | openssl sha1 -binary | base64 | cut -b1-8
+SY4oZdUV
+```
 
 Additionally two (compressed) historical versions are stored:
 - a copy named according to the SHA of the contents i.e. content addressable
 - a copy named for the timestamp when the content is archived
 
-These gzipped files are intended to be unique and immutable, i.e. not overwritten by subsequent updates. The SHA files are intended for versioning, and the timestamped copies are useful for debugging.
+These gzipped files are intended to be immutable facts, i.e. not overwritten by subsequent updates. The SHA files are intended for versioning, and the timestamped copies are useful for debugging.
 
 ```sh
 $ zcat r8data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz | jq '.'
