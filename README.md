@@ -154,18 +154,20 @@ We monitor the `r8:q` input queue.
 We record the following in Redis:
 ```javascript
 multi.hset(`r8:sha:h`, key, sha);
-multi.zadd(`r8:key:${key}:z`, timestamp, sha);
+multi.srem(`r8:rem:s`, key);
 multi.hset(`r8:${config.snapshotId}:sha:h`, key, sha);
 multi.srem(`r8:${config.snapshotId}:rem:s`, key);
+multi.zadd(`r8:${config.snapshotId}:key:${key}:z`, timestamp, sha);
 ```            
 where the `sha` of the `key` is stored for the snapshot, and also the historical SHA's for a specific key are recorded in a sorted set by the `timestamp`
 
 If the specified Redis key does not exist, we can assume it was deleted. In this case we record the following in Redis:
 ```javascript
 multi.hdel(`r8:sha:h`, key);
-multi.zadd(`r8:key:${key}:rem:z`, timestamp, sha);
+multi.sadd(`r8:rem:s`, key);
 multi.hdel(`r8:${config.snapshotId}:sha:h`, key);
 multi.sadd(`r8:${config.snapshotId}:rem:s`, key);
+multi.zadd(`r8:${config.snapshotId}:key:${key}:z`, timestamp, timestamp);
 ```
 where we delete current entries for this key and add it to `rem:s` for the snapshot, for recovery of its deleted status for the current snapshot.
 
