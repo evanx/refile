@@ -7,7 +7,7 @@ This service archives JSON documents from Redis to disk-based BLOB storage.
 
 ## Use case
 
-The intended use case is for publishing cacheable data to the web. Structured data is stored in Redis for simplicity and in-memory speed. However, to reduce RAM requirements, "large" JSON documents/collections are archived to disk-based storage. Those documents are typically retrieved via HTTP e.g. via Nginx.
+The intended use case is for publishing cacheable data to the web. Structured data is stored in Redis for simplicity and in-memory speed. However, to reduce RAM requirements, large collections of JSON documents are archived to disk-based storage. Those documents are typically retrieved via HTTP e.g. using Nginx.
 
 ## Config
 
