@@ -49,7 +49,12 @@ module.exports = {
 }
 ```
 
-Note that if `outq` is set, then further processing therefrom takes responsibility to expire or delete the archived keys. Otherwise if `expire` is set then once the key has been extracted to BLOB storage, it is set to expire. Otherwise if neither `outq` or `expire` are set, it is deleted.
+Note that if `outq` is set, then the processed key is pushed to that queue. Further processing from that queue takes responsibility to expire or delete the archived keys.
+
+Otherwise if `expire` is set then once the key has been extracted to BLOB storage, it is set to expire.
+
+Otherwise if neither `outq` or `expire` are set, it is deleted.
+
 
 ## Usage
 
