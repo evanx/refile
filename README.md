@@ -122,7 +122,7 @@ Incidently, naturally the compressed content can be streamed as in by the HTTP s
 
 ## Snapshots
 
-The SHA and timestamp for each archival is recorded in Redis against the current snapshot ID. That data in Redis, together with the above files, should be sufficient to enable another service to create a snapshot, e.g. for recovery.
+The SHA and timestamp for each archival is recorded in Redis against the current snapshot ID. That data in Redis, together with the above files, should be sufficient to create a snapshot, e.g. for recovery.
 
 Another service might serve a specific snapshot from the BLOB store, by looking up the corresponding SHA (version) from Redis for that document and snapshot. Such a service can be useful for a rollback/forward strategy.
 
