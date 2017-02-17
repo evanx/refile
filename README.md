@@ -88,6 +88,8 @@ data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz
 ```
 where the file in `data/key/` is the current version of the document to be published via HTTP.
 
+### Key files
+
 Note that the path is split up with `/` so that when using a simple file system as BLOB storage,
 e.g served using Nginx, there will be a limited number of files per subdirectory, for practical reasons.
 
@@ -99,6 +101,8 @@ SY4oZdUV
 Hence the path prefix `/data/key/SY4o/ZdUV/` for that key.
 
 Also note that any alphanumeric characters including colons are replaced with a dash, hence the file name `user-evanxsummers.json.gz` for the key `user:evanxsummers`
+
+### Immutable fact files
 
 Additionally two historical versions are stored:
 - a copy named according to the SHA of the contents i.e. content addressable
@@ -113,6 +117,8 @@ $ zcat data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz | jq
 }
 ```
 
+### Snapshot
+
 The SHA and timestamp for each archival is recorded in Redis against the current snapshot ID. That data in Redis, together with the above files, should be sufficient to enable another service to create a snapshot, e.g. for recovery.
 
 Another service might serve a specific snapshot from the BLOB store, by looking up the corresponding SHA (version) from Redis for that document and snapshot. Such a service can be useful for a rollback/forward strategy.
@@ -124,6 +130,7 @@ The following related services are planned:
 - extract a specific snapshot to BLOB storage
 - redirecting web server for a specific snapshot i.e. to the appropriate SHA file
 - proxying web server for a specific snapshot
+
 
 ## Docker
 
