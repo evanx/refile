@@ -45,6 +45,7 @@
   redis-cli -h $encipherHost -p 6333 llen reo:key:q
   docker logs $appContainer
   find ~/volumes/reo/data | grep '.gz$'
+  zcat `find ~/volumes/reo/data | grep '.gz$' | tail -1`
   #docker rm -f reo-redis reo-app reo-decipher reo-encipher
   #docker network rm reo-network
 )
