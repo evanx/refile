@@ -1,9 +1,8 @@
-
-# r8
+# reo
 
 This service archives JSON documents from Redis to disk-based BLOB storage.
 
-<img src="https://raw.githubusercontent.com/evanx/r8/master/docs/readme/main2.png"/>
+<img src="https://raw.githubusercontent.com/evanx/reo/master/docs/readme/main2.png"/>
 
 ## Use case
 
@@ -63,9 +62,9 @@ The application sets some JSON data in Redis:
 ```sh
 redis-cli set user:evanxsummers '{"twitter": "@evanxsummers"}'
 ```
-The application pushes the updated key to `r8:key:q`
+The application pushes the updated key to `reo:key:q`
 ```sh
-redis-cli lpush r8:key:q user:evanxsummers
+redis-cli lpush reo:key:q user:evanxsummers
 ```
 
 This utility will read the JSON content from Redis and write it to BLOB storage.
@@ -75,9 +74,9 @@ The intention is that the documents are retrieved via HTTP sourced from that BLO
 A document that has been deleted can similarly be pushed to this queue:
 ```sh
 redis-cli del user:evanxsummers
-redis-cli lpush r8:key:q user:evanxsummers
+redis-cli lpush reo:key:q user:evanxsummers
 ```
-where in this case, r8 will remove the JSON file from the BLOB store.
+where in this case, reo will remove the JSON file from the BLOB store.
 
 ### Files
 
@@ -127,45 +126,45 @@ The following related services are planned:
 
 You can build as follows:
 ```
-docker build -t r8 https://github.com/evanx/r8.git
+docker build -t reo https://github.com/evanx/reo.git
 ```
 
-See `test/demo.sh` https://github.com/evanx/r8/blob/master/test/demo.sh
-- isolated network `r8-network`
-- isolated Redis instance named `r8-redis`
+See `test/demo.sh` https://github.com/evanx/reo/blob/master/test/demo.sh
+- isolated network `reo-network`
+- isolated Redis instance named `reo-redis`
 - two `spiped` containers to test encrypt/decrypt tunnels
-- the prebuilt image `evanxsummers/r8`
-- host volume `$HOME/volumes/r8/data`
+- the prebuilt image `evanxsummers/reo`
+- host volume `$HOME/volumes/reo/data`
 
 
 ## Implementation
 
 See `lib/index.js`
 
-We monitor the `r8:key:q` input queue.
+We monitor the `reo:key:q` input queue.
 ```javascript
     const blobStore = require(config.blobStoreType)(config.blobStore);
     while (true) {
-        const key = await client.brpoplpushAsync('r8:key:q', 'r8:busy:key:q', 1);    
+        const key = await client.brpoplpushAsync('reo:key:q', 'reo:busy:key:q', 1);    
         ...        
     }
 ```
 
 We record the following in Redis:
 ```javascript
-multi.hset(`r8:modtime:h`, key, timestamp);
-multi.hset(`r8:sha:h`, key, sha);
-multi.hset(`r8:${config.snapshotId}:sha:h`, key, sha);
-multi.zadd(`r8:${config.snapshotId}:key:${key}:z`, timestamp, sha);
+multi.hset(`reo:modtime:h`, key, timestamp);
+multi.hset(`reo:sha:h`, key, sha);
+multi.hset(`reo:${config.snapshotId}:sha:h`, key, sha);
+multi.zadd(`reo:${config.snapshotId}:key:${key}:z`, timestamp, sha);
 ```            
 where the `sha` of the `key` is stored for the snapshot, and also the historical SHA's for a specific key are recorded in a sorted set by the `timestamp`
 
 If the specified Redis key does not exist, we can assume it was deleted. In this case we record the following in Redis:
 ```javascript
-multi.hset(`r8:modtime:h`, key, timestamp);
-multi.hdel(`r8:sha:h`, key);
-multi.hdel(`r8:${config.snapshotId}:sha:h`, key);
-multi.zadd(`r8:${config.snapshotId}:key:${key}:z`, timestamp, timestamp);
+multi.hset(`reo:modtime:h`, key, timestamp);
+multi.hdel(`reo:sha:h`, key);
+multi.hdel(`reo:${config.snapshotId}:sha:h`, key);
+multi.zadd(`reo:${config.snapshotId}:key:${key}:z`, timestamp, timestamp);
 ```
 where we delete current entries for this key and add the `timetamped` to a sorted set, for point-of-time recovery.
 

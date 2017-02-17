@@ -1,15 +1,11 @@
 {
-  "name": "r8",
-  "version": "0.1.1",
-  "description": "A Telegram bot to query a web page loaded by PhantomJS.",
+  "name": "reo",
+  "version": "0.1.0",
+  "description": "Redis-based content publisher",
   "main": "src/index.js",
   "scripts": {
     "lint": "eslint --cache src",
-    "development": "NODE_ENV=development node --harmony lib/index.js",
-    "test": "NODE_ENV=test node --harmony lib/index.js",
-    "tmp": "NODE_ENV=development node --harmony tmp/index.js",
-    "start": "node --harmony lib/index.js",
-    "pm2start": "pm2 start lib/index.js --node-args='--harmony' --name `basename $PWD`"
+    "start": "node --harmony lib/index.js"
   },
   "author": "Evan Summers",
   "license": "ISC",
@@ -28,10 +24,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/evanx/r8.git"
+    "url": "git+https://github.com/evanx/reo.git"
   },
   "bugs": {
-    "url": "https://github.com/evanx/r8/issues"
+    "url": "https://github.com/evanx/reo/issues"
   },
-  "homepage": "https://github.com/evanx/r8#readme"
+  "homepage": "https://github.com/evanx/reo#readme"
 }
