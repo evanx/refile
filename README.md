@@ -99,7 +99,7 @@ SY4oZdUV
 
 Additionally two historical versions are stored:
 - a copy named according to the SHA of the contents i.e. content addressable
-- a copy named for the timestamp when the content is archived
+- a copy named by the timestamp when the content is archived
 
 These two files are intended to be immutable facts, i.e. not overwritten by subsequent updates. The SHA files are intended for versioning, and the timestamped copies are useful for debugging.
 
