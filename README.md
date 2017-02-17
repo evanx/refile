@@ -117,13 +117,14 @@ $ zcat data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz | jq
 }
 ```
 
+Incidently, the compressed content can be streamed as is in `gzip` by the HTTP server, assuming the client accepts `gzip` encoding.
+
+
 ## Snapshots
 
 The SHA and timestamp for each archival is recorded in Redis against the current snapshot ID. That data in Redis, together with the above files, should be sufficient to enable another service to create a snapshot, e.g. for recovery.
 
 Another service might serve a specific snapshot from the BLOB store, by looking up the corresponding SHA (version) from Redis for that document and snapshot. Such a service can be useful for a rollback/forward strategy.
-
-Incidently, the compressed content can be streamed as is in `gzip` by the HTTP server, assuming the client accepts `gzip` encoding.
 
 The following related services are planned:
 - delete an older snapshot, including related SHA files
