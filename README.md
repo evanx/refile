@@ -117,7 +117,7 @@ $ zcat data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz | jq
 }
 ```
 
-Incidently, the compressed content can be streamed as is in `gzip` by the HTTP server, assuming the client accepts `gzip` encoding.
+Incidently, naturally the compressed content can be streamed as in by the HTTP server, assuming the client accepts `gzip` encoding.
 
 
 ## Snapshots

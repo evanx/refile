@@ -1,5 +1,5 @@
 {
-  "name": "reo",
+  "name": "@evanx/reo",
   "version": "0.1.0",
   "description": "Redis-based content publisher",
   "main": "src/index.js",
