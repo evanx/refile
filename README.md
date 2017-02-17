@@ -31,7 +31,7 @@ module.exports = {
             description: 'the Redis port',
             default: 6379
         },
-        snapshotId: {
+        snapshot: {
             description: 'the snapshot ID for recovery',
             default: 1
         },
@@ -45,15 +45,31 @@ module.exports = {
             example: 60,
             required: false
         },
+        action: {
+            description: 'the action to perform on archived keys if expire not set',
+            options: ['delete'],
+            required: false
+        },
     }
 }
 ```
 
 Note that if `outq` is set, then the processed key is pushed to that queue. Further processing from that queue takes responsibility to expire or delete the archived keys.
 
+```
+if (config.outq) {
+    multi.lpush(config.outq, key);
+} else if (config.expire) {
+    multi.expire(key, config.expire);
+} else if (config.action === 'delete'){
+    multi.del(key);
+}
+```
+
 Otherwise if `expire` is set then once the key has been extracted to BLOB storage, it is set to expire.
 
-Otherwise if neither `outq` or `expire` are set, it is deleted.
+Otherwise if `action` is set to `delete` then the key is deleted.
+
 
 
 ## Usage
@@ -186,8 +202,8 @@ We record the following in Redis:
 ```javascript
 multi.hset(`reo:modtime:h`, key, timestamp);
 multi.hset(`reo:sha:h`, key, sha);
-multi.hset(`reo:${config.snapshotId}:sha:h`, key, sha);
-multi.zadd(`reo:${config.snapshotId}:key:${key}:z`, timestamp, sha);
+multi.hset(`reo:${config.snapshot}:sha:h`, key, sha);
+multi.zadd(`reo:${config.snapshot}:key:${key}:z`, timestamp, sha);
 ```            
 where the `sha` of the `key` is stored for the snapshot, and also the historical SHA's for a specific key are recorded in a sorted set by the `timestamp`
 
@@ -195,8 +211,8 @@ If the specified Redis key does not exist, we can assume it was deleted. In this
 ```javascript
 multi.hset(`reo:modtime:h`, key, timestamp);
 multi.hdel(`reo:sha:h`, key);
-multi.hdel(`reo:${config.snapshotId}:sha:h`, key);
-multi.zadd(`reo:${config.snapshotId}:key:${key}:z`, timestamp, timestamp);
+multi.hdel(`reo:${config.snapshot}:sha:h`, key);
+multi.zadd(`reo:${config.snapshot}:key:${key}:z`, timestamp, timestamp);
 ```
 where we delete current entries for this key and add the `timetamped` to a sorted set, for point-of-time recovery.
 
