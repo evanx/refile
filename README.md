@@ -128,7 +128,7 @@ Another service will publish a specified snapshot from the BLOB store, by lookin
 
 The following related services are planned:
 - delete an older snapshot, including related SHA files
-- extract a specific snapshot to BLOB storage
+- recover a specific snapshot to BLOB storage
 - redirecting web server for a specific snapshot i.e. to the appropriate SHA file
 - proxying web server for a specific snapshot
 
