@@ -98,7 +98,7 @@ SY4oZdUV
 ```
 Hence the path prefix `/data/key/SY4o/ZdUV/` for that key.
 
-Also note that any alphanumeric characters including colons are replaced with a dash, hence `user-evanxsummers.json.gz` for the key `user:evanxsummers.`
+Also note that any alphanumeric characters including colons are replaced with a dash, hence `user-evanxsummers.json.gz`
 
 Additionally two historical versions are stored:
 - a copy named according to the SHA of the contents i.e. content addressable
