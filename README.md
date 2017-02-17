@@ -78,7 +78,7 @@ redis-cli lpush reo:key:q user:evanxsummers
 ```
 where in this case, reo will remove the JSON file from the BLOB store.
 
-### Files
+## Files
 
 In the case of the key `user:evanxsummers` the following files are written to storage:
 ```
@@ -117,7 +117,7 @@ $ zcat data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz | jq
 }
 ```
 
-### Snapshot
+## Snapshots
 
 The SHA and timestamp for each archival is recorded in Redis against the current snapshot ID. That data in Redis, together with the above files, should be sufficient to enable another service to create a snapshot, e.g. for recovery.
 
