@@ -141,6 +141,18 @@ docker build -t reo https://github.com/evanx/reo.git
 ```
 
 See `test/demo.sh` https://github.com/evanx/reo/blob/master/test/demo.sh
+```
+redis-cli -h $encipherHost -p 6333 set user:evanxsummers '{"twitter":"evanxsummers"}'
+redis-cli -h $encipherHost -p 6333 lpush reo:key:q user:evanxsummers
+appContainer=`docker run --name reo-app -d \
+  --network=reo-network \
+  -v $HOME/volumes/reo/data:/data \
+  -e host=$encipherHost \
+  -e port=6333 \
+  evanxsummers/reo`
+```
+
+Creates:
 - isolated network `reo-network`
 - isolated Redis instance named `reo-redis`
 - two `spiped` containers to test encrypt/decrypt tunnels
