@@ -63,9 +63,9 @@ The application sets some JSON data in Redis:
 ```sh
 redis-cli set user:evanxsummers '{"twitter": "@evanxsummers"}'
 ```
-The application pushes the updated key to `r8:q`
+The application pushes the updated key to `r8:key:q`
 ```sh
-redis-cli lpush r8:q user:evanxsummers
+redis-cli lpush r8:key:q user:evanxsummers
 ```
 
 This utility will read the JSON content from Redis and write it to BLOB storage.
@@ -75,7 +75,7 @@ The intention is that the documents are retrieved via HTTP sourced from that BLO
 A document that has been deleted can similarly be pushed to this queue:
 ```sh
 redis-cli del user:evanxsummers
-redis-cli lpush r8:q user:evanxsummers
+redis-cli lpush r8:key:q user:evanxsummers
 ```
 where in this case, r8 will remove the JSON file from the BLOB store.
 
@@ -142,11 +142,11 @@ See `test/demo.sh` https://github.com/evanx/r8/blob/master/test/demo.sh
 
 See `lib/index.js`
 
-We monitor the `r8:q` input queue.
+We monitor the `r8:key:q` input queue.
 ```javascript
     const blobStore = require(config.blobStoreType)(config.blobStore);
     while (true) {
-        const key = await client.brpoplpushAsync('r8:q', 'r8:busy:q', 1);    
+        const key = await client.brpoplpushAsync('r8:key:q', 'r8:busy:key:q', 1);    
         ...        
     }
 ```
