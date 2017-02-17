@@ -153,6 +153,8 @@ evan@dijkstra:~/reo$ sh test/demo.sh
 /home/evan/volumes/reo/data/time/2017-02-17/20h28m53/919/user-evanxsummers.json.gz
 /home/evan/volumes/reo/data/key/SY4o/dJOk/user-evanxsummers.json.gz
 /home/evan/volumes/reo/data/sha/gUiW/WNpQ/gUiWKhI8O2Kai3jXAFKhTXFWNpQ.user-evanxsummers.json.gz
+...
+{"twitter":"evanxsummers"}
 ```
 
 ## Implementation
