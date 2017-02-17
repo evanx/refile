@@ -102,7 +102,7 @@ Hence the path prefix `/data/key/SY4o/ZdUV/` for that key.
 
 Also note that any alphanumeric characters including colons are replaced with a dash, hence the file name `user-evanxsummers.json.gz` for the key `user:evanxsummers`
 
-### Immutable fact files
+### Immutable historical files
 
 Additionally two historical versions are stored:
 - a copy named according to the SHA of the contents i.e. content addressable
