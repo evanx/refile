@@ -89,7 +89,7 @@ data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz
 where the file in `data/key/` is the current version of the document to be published via HTTP.
 
 Note that the path is split up with `/` so that when using a simple file system as BLOB storage,
-e.g served using Nginx, there will be a limited number of files in each subdirectory, for practical reasons.
+e.g served using Nginx, there will be a limited number of files per subdirectory, for practical reasons.
 
 In the case of `data/key` the path prefixes are determined from the SHA of the key itself:
 ```
