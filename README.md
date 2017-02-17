@@ -96,7 +96,9 @@ In the case of `data/key/` the path is prefixed by part of the SHA of the key it
 $ echo -n 'user:evanxsummers' | openssl sha1 -binary | base64 | cut -b1-8
 SY4oZdUV
 ```
-Hence the path prefix `/data/key/SY4o/ZdUV` for that key.
+Hence the path prefix `/data/key/SY4o/ZdUV/` for that key.
+
+Also note that any alphanumeric characters including `:` are replaced with a `dash` hence `user-evanxsummers.json.gz.`
 
 Additionally two historical versions are stored:
 - a copy named according to the SHA of the contents i.e. content addressable
