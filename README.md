@@ -49,12 +49,7 @@ module.exports = {
 }
 ```
 
-Archived keys are actioned as follows:
-- `lpush` to `outq`
-- set to `expire`
-- if neither of the above, then they are deleted
-
-That is to say, if `outq` is set, then further processing thereby takes responsibility to expire or delete the archived keys.
+Note that if `outq` is set, then further processing therefrom takes responsibility to expire or delete the archived keys. Otherwise if `expire` is set then once the key has been extracted to BLOB storage, it is set to expire. Otherwise if neither `outq` or `expire` are set, it is deleted.
 
 ## Usage
 
