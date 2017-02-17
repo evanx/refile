@@ -91,7 +91,7 @@ where the file in `data/key/` is the current version of the document to be publi
 Note that the path is split up with `/` so that when using a simple file system as BLOB storage,
 e.g served using Nginx, there will be a limited number of files per subdirectory, for practical reasons.
 
-In the case of `data/key` the path prefixes are determined from the SHA of the key itself:
+In the case of `data/key/` the path prefixes are determined from the SHA of the key itself:
 ```
 $ echo -n 'user:evanxsummers' | openssl sha1 -binary | base64 | cut -b1-8
 SY4oZdUV
