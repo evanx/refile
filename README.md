@@ -216,5 +216,18 @@ multi.zadd(`reo:${config.snapshot}:key:${key}:z`, timestamp, timestamp);
 ```
 where we delete current entries for this key and add the `timetamped` to a sorted set, for point-of-time recovery.
 
+
+### Appication archetype
+
+Incidently `lib/index.js` uses the `redis-app-rpf` application archetype.
+```
+require('redis-koa-app-rpf')(require('./spec'), require('./main'));
+```
+where we extract the `config` from `process.env` according to the `spec` and invoke our `main` function.
+
+See https://github.com/evanx/redis-koa-app-rpf.
+
+This provides lifecycle boilerplate to reuse across similar applications.
+
 <hr>
 https://twitter.com/@evanxsummers
