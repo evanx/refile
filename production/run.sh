@@ -1,6 +1,13 @@
 
+set -u -e 
+
 docker build -t reo https://github.com/evanx/reo.git
-docker rm -f `docker ps -q -f name=reo`
+
+for container in `docker ps -q -f name=reo`
+do
+  docker rm -f $container
+done
+
 docker run --name $name -d \
   --network=host \
   --restart unless-stopped \
