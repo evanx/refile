@@ -1,5 +1,5 @@
 
-docker build -t reo https://github.com/evanx/reo
+docker build -t reo https://github.com/evanx/reo.git
 docker rm -f `docker ps -q -f name=reo`
 docker run --name $name -d \
   --network=host \
