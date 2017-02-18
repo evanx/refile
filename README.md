@@ -1,6 +1,6 @@
 # reo
 
-This service archives JSON documents from Redis to disk-based BLOB storage.
+This service archives JSON documents from Redis to disk-based BLOB storage for perpetual publication.
 
 <img src="https://raw.githubusercontent.com/evanx/reo/master/docs/readme/main.png"/>
 
