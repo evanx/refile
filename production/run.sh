@@ -8,7 +8,7 @@ do
   docker rm -f $container
 done
 
-docker run --name $name -d \
+docker run --name reo -d \
   --network=host \
   --restart unless-stopped \
   -v /opt/volumes/reo/data:/data \
