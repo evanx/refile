@@ -1,8 +1,8 @@
 {
   "name": "@evanx/reo",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Redis-based content publisher",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "lint": "eslint --cache src",
     "start": "node --harmony lib/index.js"
@@ -17,7 +17,7 @@
     "multi-exec-async": "^0.2.0",
     "node-fetch": "^1.6.3",
     "redis": "^2.6.4",
-    "redis-app-rpf": "^0.1.5"
+    "redis-app-rpf": "^0.1.6"
   },
   "devDependencies": {
     "eslint": "^3.12.2"
