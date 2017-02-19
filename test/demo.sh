@@ -45,7 +45,7 @@
   redis-cli -h $encipherHost -p 6333 llen re8:key:q
   docker logs $appContainer
   find ~/volumes/re8/data | grep '.gz$'
-  zcat `find ~/volumes/re8/data | grep '.gz$' | tail -1`
+  zcat `find ~/volumes/re8/data | grep '.gz$' | tail -1` | jq
   #docker rm -f re8-redis re8-app re8-decipher re8-encipher
   #docker network rm re8-network
 )
