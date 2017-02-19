@@ -13,4 +13,5 @@ docker run --name re8 -d \
   --restart unless-stopped \
   -v /opt/volumes/re8/data:/data \
   -e NODE_ENV=production \
+  -e host=localhost \
   re8
