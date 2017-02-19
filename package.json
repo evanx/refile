@@ -1,6 +1,6 @@
 {
   "name": "re8",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Redis-based content publisher",
   "main": "lib/index.js",
   "scripts": {
@@ -10,13 +10,13 @@
   "author": "@evanxsummers",
   "license": "ISC",
   "dependencies": {
+    "app-spec": "^0.4.1",
     "bluebird": "^3.4.6",
     "cli-color": "^1.1.0",
     "fs-blob-store": "^5.2.1",
     "lodash": "^4.17.4",
     "multi-exec-async": "^0.2.0",
-    "redis": "^2.6.4",
-    "redis-app-rpf": "^0.1.7"
+    "redis-app-rpf": "^0.2.1"
   },
   "devDependencies": {
     "eslint": "^3.12.2"

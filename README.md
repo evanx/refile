@@ -187,7 +187,7 @@ evan@dijkstra:~/re8$ sh test/demo.sh
 
 ## Implementation
 
-See `lib/index.js`
+See `lib/main.js`
 
 We monitor the `re8:key:q` input queue.
 ```javascript
