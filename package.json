@@ -1,11 +1,12 @@
 {
   "name": "re8",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Redis-based content publisher",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint --cache src",
-    "start": "node --harmony lib/index.js"
+    "start": "node --harmony lib/index.js",
+    "deploy": "./bin/deploy.sh"
   },
   "author": "@evanxsummers",
   "license": "ISC",
