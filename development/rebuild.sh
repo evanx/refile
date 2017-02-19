@@ -1,7 +1,7 @@
 
-  docker build -t reo https://github.com/evanx/reo.git
+  docker build -t re8 https://github.com/evanx/re8.git
   if [ -n "$DHUSER"]
   then
-    docker tag reo $DHUSER/reo
-    docker push $DHUSER/reo
+    docker tag re8 $DHUSER/re8
+    docker push $DHUSER/re8
   fi

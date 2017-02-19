@@ -1,5 +1,5 @@
 {
-  "name": "@evanx/reo",
+  "name": "re8",
   "version": "0.1.2",
   "description": "Redis-based content publisher",
   "main": "lib/index.js",
@@ -24,10 +24,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/evanx/reo.git"
+    "url": "git+https://github.com/evanx/re8.git"
   },
   "bugs": {
-    "url": "https://github.com/evanx/reo/issues"
+    "url": "https://github.com/evanx/re8/issues"
   },
-  "homepage": "https://github.com/evanx/reo#readme"
+  "homepage": "https://github.com/evanx/re8#readme"
 }

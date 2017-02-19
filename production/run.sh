@@ -1,16 +1,16 @@
 
 set -u -e 
 
-docker build -t reo https://github.com/evanx/reo.git
+docker build -t re8 https://github.com/evanx/re8.git
 
-for container in `docker ps -q -f name=reo`
+for container in `docker ps -q -f name=re8`
 do
   docker rm -f $container
 done
 
-docker run --name reo -d \
+docker run --name re8 -d \
   --network=host \
   --restart unless-stopped \
-  -v /opt/volumes/reo/data:/data \
+  -v /opt/volumes/re8/data:/data \
   -e NODE_ENV=production \
-  reo
+  re8

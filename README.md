@@ -1,8 +1,8 @@
-# reo
+# re8
 
 This service archives JSON documents from Redis to disk-based BLOB storage for perpetual publication.
 
-<img src="https://raw.githubusercontent.com/evanx/reo/master/docs/readme/main.png"/>
+<img src="https://raw.githubusercontent.com/evanx/re8/master/docs/readme/main.png"/>
 
 ## Use case
 
@@ -78,9 +78,9 @@ The application sets some JSON data in Redis:
 ```sh
 redis-cli set user:evanxsummers '{"twitter": "@evanxsummers"}'
 ```
-The application pushes the updated key to `reo:key:q`
+The application pushes the updated key to `re8:key:q`
 ```sh
-redis-cli lpush reo:key:q user:evanxsummers
+redis-cli lpush re8:key:q user:evanxsummers
 ```
 
 This utility will read the JSON content from Redis and write it to BLOB storage.
@@ -90,9 +90,9 @@ The intention is that the documents are retrieved via HTTP sourced from that BLO
 A document that has been deleted can similarly be pushed to this queue:
 ```sh
 redis-cli del user:evanxsummers
-redis-cli lpush reo:key:q user:evanxsummers
+redis-cli lpush re8:key:q user:evanxsummers
 ```
-where in this case, reo will remove the JSON file from the BLOB store.
+where in this case, re8 will remove the JSON file from the BLOB store.
 
 ## Files
 
@@ -153,34 +153,34 @@ The following related services are planned:
 
 You can build as follows:
 ```
-docker build -t reo https://github.com/evanx/reo.git
+docker build -t re8 https://github.com/evanx/re8.git
 ```
 
-See `test/demo.sh` https://github.com/evanx/reo/blob/master/test/demo.sh
+See `test/demo.sh` https://github.com/evanx/re8/blob/master/test/demo.sh
 ```
 redis-cli -h $encipherHost -p 6333 set user:evanxsummers '{"twitter":"evanxsummers"}'
-redis-cli -h $encipherHost -p 6333 lpush reo:key:q user:evanxsummers
-appContainer=`docker run --name reo-app -d \
-  --network=reo-network \
-  -v $HOME/volumes/reo/data:/data \
+redis-cli -h $encipherHost -p 6333 lpush re8:key:q user:evanxsummers
+appContainer=`docker run --name re8-app -d \
+  --network=re8-network \
+  -v $HOME/volumes/re8/data:/data \
   -e host=$encipherHost \
   -e port=6333 \
-  evanxsummers/reo`
+  evanxsummers/re8`
 ```
 
 Creates:
-- isolated network `reo-network`
-- isolated Redis instance named `reo-redis`
+- isolated network `re8-network`
+- isolated Redis instance named `re8-redis`
 - two `spiped` containers to test encrypt/decrypt tunnels
-- the prebuilt image `evanxsummers/reo`
-- host volume `$HOME/volumes/reo/data`
+- the prebuilt image `evanxsummers/re8`
+- host volume `$HOME/volumes/re8/data`
 
 ```
-evan@dijkstra:~/reo$ sh test/demo.sh
+evan@dijkstra:~/re8$ sh test/demo.sh
 ...
-/home/evan/volumes/reo/data/time/2017-02-17/20h28m53/919/user-evanxsummers.json.gz
-/home/evan/volumes/reo/data/key/SY4o/dJOk/user-evanxsummers.json.gz
-/home/evan/volumes/reo/data/sha/gUiW/WNpQ/gUiWKhI8O2Kai3jXAFKhTXFWNpQ.user-evanxsummers.json.gz
+/home/evan/volumes/re8/data/time/2017-02-17/20h28m53/919/user-evanxsummers.json.gz
+/home/evan/volumes/re8/data/key/SY4o/dJOk/user-evanxsummers.json.gz
+/home/evan/volumes/re8/data/sha/gUiW/WNpQ/gUiWKhI8O2Kai3jXAFKhTXFWNpQ.user-evanxsummers.json.gz
 ...
 {"twitter":"evanxsummers"}
 ```
@@ -189,30 +189,30 @@ evan@dijkstra:~/reo$ sh test/demo.sh
 
 See `lib/index.js`
 
-We monitor the `reo:key:q` input queue.
+We monitor the `re8:key:q` input queue.
 ```javascript
     const blobStore = require(config.blobStoreType)(config.blobStore);
     while (true) {
-        const key = await client.brpoplpushAsync('reo:key:q', 'reo:busy:key:q', 1);    
+        const key = await client.brpoplpushAsync('re8:key:q', 're8:busy:key:q', 1);    
         ...        
     }
 ```
 
 We record the following in Redis:
 ```javascript
-multi.hset(`reo:modtime:h`, key, timestamp);
-multi.hset(`reo:sha:h`, key, sha);
-multi.hset(`reo:${config.snapshot}:sha:h`, key, sha);
-multi.zadd(`reo:${config.snapshot}:key:${key}:z`, timestamp, sha);
+multi.hset(`re8:modtime:h`, key, timestamp);
+multi.hset(`re8:sha:h`, key, sha);
+multi.hset(`re8:${config.snapshot}:sha:h`, key, sha);
+multi.zadd(`re8:${config.snapshot}:key:${key}:z`, timestamp, sha);
 ```            
 where the `sha` of the `key` is stored for the snapshot, and also the historical SHA's for a specific key are recorded in a sorted set by the `timestamp`
 
 If the specified Redis key does not exist, we can assume it was deleted. In this case we record the following in Redis:
 ```javascript
-multi.hset(`reo:modtime:h`, key, timestamp);
-multi.hdel(`reo:sha:h`, key);
-multi.hdel(`reo:${config.snapshot}:sha:h`, key);
-multi.zadd(`reo:${config.snapshot}:key:${key}:z`, timestamp, timestamp);
+multi.hset(`re8:modtime:h`, key, timestamp);
+multi.hdel(`re8:sha:h`, key);
+multi.hdel(`re8:${config.snapshot}:sha:h`, key);
+multi.zadd(`re8:${config.snapshot}:key:${key}:z`, timestamp, timestamp);
 ```
 where we delete current entries for this key and add the `timetamped` to a sorted set, for point-of-time recovery.
 
