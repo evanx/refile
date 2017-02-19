@@ -1,13 +1,13 @@
 {
   "name": "re8",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Redis-based content publisher",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint --cache src",
     "start": "node --harmony lib/index.js"
   },
-  "author": "Evan Summers",
+  "author": "@evanxsummers",
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.4.6",
@@ -15,9 +15,8 @@
     "fs-blob-store": "^5.2.1",
     "lodash": "^4.17.4",
     "multi-exec-async": "^0.2.0",
-    "node-fetch": "^1.6.3",
     "redis": "^2.6.4",
-    "redis-app-rpf": "^0.1.6"
+    "redis-app-rpf": "^0.1.7"
   },
   "devDependencies": {
     "eslint": "^3.12.2"
