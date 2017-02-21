@@ -98,25 +98,26 @@ where in this case, re8 will remove the JSON file from the BLOB store.
 
 In the case of the key `user:evanxsummers` the following files are written to storage:
 ```
-data/key/SY4o/ZdUV/user-evanxsummers.json.gz
-data/sha/gUiW/KhI8/gUiWKhI8O2Kai3jXAFKhTXFWNpQ.user-evanxsummers.json.gz
+data/key/498/user-evanxsummers.json.gz
+data/sha/858/858cc063aaa86d463676b39889fc317562b7bb1a.user-evanxsummers.json.gz
 data/time/2017-02-14/01h12m20/998/user-evanxsummers.json.gz
 ```
 where the file in `data/key/` is the current version of the document to be published via HTTP.
+
 
 ### Key files
 
 Note that the path is split up with `/` so that when using a simple file system as BLOB storage,
 e.g served using Nginx, there will be a limited number of files per subdirectory, for practical reasons.
 
-In the case of `data/key/` the path is prefixed by part of the SHA of the key itself:
+In the case of `data/key/` the path is prefixed by first three hex digits of the SHA of the key itself:
 ```
-$ echo -n 'user:evanxsummers' | openssl sha1 -binary | base64 | cut -b1-8
-SY4oZdUV
+evan@dijkstra:~$ echo -n 'user:evanxsummers' | sha1sum | cut -b1-3
+498
 ```
-Hence the path prefix `/data/key/SY4o/ZdUV/` for that key.
 
 Also note that any alphanumeric characters including colons are replaced with a dash, hence the file name `user-evanxsummers.json.gz` for the key `user:evanxsummers`
+
 
 ### Immutable historical files
 
@@ -179,9 +180,8 @@ Creates:
 evan@dijkstra:~/re8$ sh test/demo.sh
 ...
 /home/evan/volumes/re8/data/time/2017-02-17/20h28m53/919/user-evanxsummers.json.gz
-/home/evan/volumes/re8/data/key/SY4o/dJOk/user-evanxsummers.json.gz
-/home/evan/volumes/re8/data/sha/gUiW/WNpQ/gUiWKhI8O2Kai3jXAFKhTXFWNpQ.user-evanxsummers.json.gz
-...
+/home/evan/volumes/re8/data/key/498/user-evanxsummers.json.gz
+/home/evan/volumes/re8/data/sha/814/8148962a123c3b629a8b78d70052a14d71563694.user-evanxsummers.json.gz/hom...
 {"twitter":"evanxsummers"}
 ```
 
