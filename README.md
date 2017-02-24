@@ -1,8 +1,8 @@
-# re8
+# refile
 
-This service archives JSON documents from Redis to disk-based BLOB storage for perpetual publication.
+This service archives JSON documents from Redis to disk-based BLOB storage for publication.
 
-<img src="https://raw.githubusercontent.com/evanx/re8/master/docs/readme/main.png"/>
+<img src="https://raw.githubusercontent.com/evanx/refile/master/docs/readme/main.png"/>
 
 ## Use case
 
@@ -78,9 +78,9 @@ The application sets some JSON data in Redis:
 ```sh
 redis-cli set user:evanxsummers '{"twitter": "@evanxsummers"}'
 ```
-The application pushes the updated key to `re8:key:q`
+The application pushes the updated key to `refile:key:q`
 ```sh
-redis-cli lpush re8:key:q user:evanxsummers
+redis-cli lpush refile:key:q user:evanxsummers
 ```
 
 This utility will read the JSON content from Redis and write it to BLOB storage.
@@ -90,9 +90,9 @@ The intention is that the documents are retrieved via HTTP sourced from that BLO
 A document that has been deleted can similarly be pushed to this queue:
 ```sh
 redis-cli del user:evanxsummers
-redis-cli lpush re8:key:q user:evanxsummers
+redis-cli lpush refile:key:q user:evanxsummers
 ```
-where in this case, re8 will remove the JSON file from the BLOB store.
+where in this case, refile will remove the JSON file from the BLOB store.
 
 ## Files
 
@@ -154,34 +154,34 @@ The following related services are planned:
 
 You can build as follows:
 ```
-docker build -t re8 https://github.com/evanx/re8.git
+docker build -t refile https://github.com/evanx/refile.git
 ```
 
-See `test/demo.sh` https://github.com/evanx/re8/blob/master/test/demo.sh
+See `test/demo.sh` https://github.com/evanx/refile/blob/master/test/demo.sh
 ```
 redis-cli -h $encipherHost -p 6333 set user:evanxsummers '{"twitter":"evanxsummers"}'
-redis-cli -h $encipherHost -p 6333 lpush re8:key:q user:evanxsummers
-appContainer=`docker run --name re8-app -d \
-  --network=re8-network \
-  -v $HOME/volumes/re8/data:/data \
+redis-cli -h $encipherHost -p 6333 lpush refile:key:q user:evanxsummers
+appContainer=`docker run --name refile-app -d \
+  --network=refile-network \
+  -v $HOME/volumes/refile/data:/data \
   -e host=$encipherHost \
   -e port=6333 \
-  evanxsummers/re8`
+  evanxsummers/refile`
 ```
 
 Creates:
-- isolated network `re8-network`
-- isolated Redis instance named `re8-redis`
+- isolated network `refile-network`
+- isolated Redis instance named `refile-redis`
 - two `spiped` containers to test encrypt/decrypt tunnels
-- the prebuilt image `evanxsummers/re8`
-- host volume `$HOME/volumes/re8/data`
+- the prebuilt image `evanxsummers/refile`
+- host volume `$HOME/volumes/refile/data`
 
 ```
-evan@dijkstra:~/re8$ sh test/demo.sh
+evan@dijkstra:~/refile$ sh test/demo.sh
 ...
-/home/evan/volumes/re8/data/time/2017-02-17/20h28m53/919/user-evanxsummers.json.gz
-/home/evan/volumes/re8/data/key/498/user-evanxsummers.json.gz
-/home/evan/volumes/re8/data/sha/814/8148962a123c3b629a8b78d70052a14d71563694.user-evanxsummers.json.gz/hom...
+/home/evan/volumes/refile/data/time/2017-02-17/20h28m53/919/user-evanxsummers.json.gz
+/home/evan/volumes/refile/data/key/498/user-evanxsummers.json.gz
+/home/evan/volumes/refile/data/sha/814/8148962a123c3b629a8b78d70052a14d71563694.user-evanxsummers.json.gz/hom...
 {"twitter":"evanxsummers"}
 ```
 
@@ -189,30 +189,30 @@ evan@dijkstra:~/re8$ sh test/demo.sh
 
 See `lib/main.js`
 
-We monitor the `re8:key:q` input queue.
+We monitor the `refile:key:q` input queue.
 ```javascript
     const blobStore = require(config.blobStoreType)(config.blobStore);
     while (true) {
-        const key = await client.brpoplpushAsync('re8:key:q', 're8:busy:key:q', 1);    
+        const key = await client.brpoplpushAsync('refile:key:q', 'refile:busy:key:q', 1);    
         ...        
     }
 ```
 
 We record the following in Redis:
 ```javascript
-multi.hset(`re8:modtime:h`, key, timestamp);
-multi.hset(`re8:sha:h`, key, sha);
-multi.hset(`re8:${config.snapshot}:sha:h`, key, sha);
-multi.zadd(`re8:${config.snapshot}:key:${key}:z`, timestamp, sha);
+multi.hset(`refile:modtime:h`, key, timestamp);
+multi.hset(`refile:sha:h`, key, sha);
+multi.hset(`refile:${config.snapshot}:sha:h`, key, sha);
+multi.zadd(`refile:${config.snapshot}:key:${key}:z`, timestamp, sha);
 ```            
 where the `sha` of the `key` is stored for the snapshot, and also the historical SHA's for a specific key are recorded in a sorted set by the `timestamp`
 
 If the specified Redis key does not exist, we can assume it was deleted. In this case we record the following in Redis:
 ```javascript
-multi.hset(`re8:modtime:h`, key, timestamp);
-multi.hdel(`re8:sha:h`, key);
-multi.hdel(`re8:${config.snapshot}:sha:h`, key);
-multi.zadd(`re8:${config.snapshot}:key:${key}:z`, timestamp, timestamp);
+multi.hset(`refile:modtime:h`, key, timestamp);
+multi.hdel(`refile:sha:h`, key);
+multi.hdel(`refile:${config.snapshot}:sha:h`, key);
+multi.zadd(`refile:${config.snapshot}:key:${key}:z`, timestamp, timestamp);
 ```
 where we delete current entries for this key and add the `timetamped` to a sorted set, for point-of-time recovery.
 

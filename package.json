@@ -1,5 +1,5 @@
 {
-  "name": "re8",
+  "name": "refile",
   "version": "0.2.4",
   "description": "Redis-based content publisher",
   "main": "lib/index.js",
@@ -24,10 +24,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/evanx/re8.git"
+    "url": "git+https://github.com/evanx/refile.git"
   },
   "bugs": {
-    "url": "https://github.com/evanx/re8/issues"
+    "url": "https://github.com/evanx/refile/issues"
   },
-  "homepage": "https://github.com/evanx/re8#readme"
+  "homepage": "https://github.com/evanx/refile#readme"
 }

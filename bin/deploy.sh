@@ -1,18 +1,18 @@
 
-set -u -e 
+set -u -e
 
-docker build -t re8 https://github.com/evanx/re8.git
+docker build -t refile https://github.com/evanx/refile.git
 
-for container in `docker ps -q -f name=re8`
+for container in `docker ps -q -f name=refile`
 do
   docker rm -f $container
 done
 
-docker run --name re8 -d \
+docker run --name refile -d \
   --network=host \
   --restart unless-stopped \
-  -v /re8data:/data \
-  -e NODE_ENV=production \
+  -v /refiledata:/data \
+  -e NODE_ENV=$NODE_ENV \
   -e host=localhost \
   -e expire=1 \
-  re8
+  refile

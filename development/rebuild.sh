@@ -4,6 +4,6 @@
     grep ^Username | 
     sed 's/Username: \(.*\)/\1/'
   `
-  docker build -t re8 https://github.com/evanx/re8.git
-  docker tag re8 $user/re8
-  docker push $user/re8
+  docker build -t refile https://github.com/evanx/refile.git
+  docker tag refile $user/refile
+  docker push $user/refile
