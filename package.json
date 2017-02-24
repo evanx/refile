@@ -1,6 +1,6 @@
 {
   "name": "refile",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Redis-based content publisher",
   "main": "lib/index.js",
   "scripts": {
@@ -11,13 +11,13 @@
   "author": "@evanxsummers",
   "license": "ISC",
   "dependencies": {
-    "app-spec": "^0.4.1",
+    "app-spec": "^0.6.2",
     "bluebird": "^3.4.6",
     "cli-color": "^1.1.0",
     "fs-blob-store": "^5.2.1",
     "lodash": "^4.17.4",
     "multi-exec-async": "^0.2.0",
-    "redis-app-rpf": "^0.2.1"
+    "redis-app-rpf": "^0.6.2"
   },
   "devDependencies": {
     "eslint": "^3.12.2"

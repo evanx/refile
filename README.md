@@ -2,7 +2,7 @@
 
 This service archives JSON documents from Redis to disk-based BLOB storage for publication.
 
-<img src="https://raw.githubusercontent.com/evanx/refile/master/docs/readme/main2.png"/>
+<img src="https://raw.githubusercontent.com/evanx/refile/master/docs/readme/main.png"/>
 
 ## Use case
 
