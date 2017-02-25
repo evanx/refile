@@ -38,7 +38,7 @@
   redis-cli -h $encipherHost -p 6333 llen refile:key:q
   appContainer=`docker run --name refile-app -d \
     --network=refile-network \
-    -v $HOME/volumes/refile/data:/data \
+    -v $HOME/tmp/volumes/refile/data:/data \
     -e host=$encipherHost \
     -e port=6333 \
     evanxsummers/refile`
