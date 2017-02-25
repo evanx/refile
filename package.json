@@ -1,12 +1,12 @@
 {
   "name": "refile",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Redis-based content publisher",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint --cache src",
     "start": "node --harmony lib/index.js",
-    "deploy": "./bin/deploy.sh"
+    "redeploy": "./bin/redeploy.sh"
   },
   "author": "@evanxsummers",
   "license": "ISC",

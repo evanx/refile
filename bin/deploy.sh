@@ -9,10 +9,10 @@ do
 done
 
 docker run --name refile -d \
-  --network=host \
   --restart unless-stopped \
+  --network=host \
   -v /refiledata:/data \
   -e NODE_ENV=$NODE_ENV \
   -e host=localhost \
-  -e expire=1 \
+  -e expire=8 \
   refile
