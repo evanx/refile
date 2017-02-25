@@ -176,13 +176,13 @@ where
 
 ### Test
 
-See `test/demo.sh` https://github.com/evanx/refile/blob/master/test/demo.sh
+See `test/run.sh` https://github.com/evanx/refile/blob/master/test/run.sh
 ```
 redis-cli -h $encipherHost -p 6333 set user:evanxsummers '{"twitter":"evanxsummers"}'
 redis-cli -h $encipherHost -p 6333 lpush refile:key:q user:evanxsummers
 appContainer=`docker run --name refile-app -d \
   --network=refile-network \
-  -v $HOME/volumes/refile/data:/data \
+  -v $HOME/tmp/volumes/refile/data:/data \
   -e host=$encipherHost \
   -e port=6333 \
   evanxsummers/refile`
@@ -196,7 +196,7 @@ Builds:
 - host volume `$HOME/volumes/refile/data`
 
 ```
-evan@dijkstra:~/refile$ sh test/demo.sh
+evan@dijkstra:~/refile$ sh test/run.sh
 ...
 /home/evan/volumes/refile/data/time/2017-02-17/20h28m53/919/user-evanxsummers.json.gz
 /home/evan/volumes/refile/data/key/498/user-evanxsummers.json.gz
