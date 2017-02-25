@@ -6,10 +6,7 @@ home=$1
 
 docker build -t refile https://github.com/evanx/refile.git
 
-for container in `docker ps -q -f name=refile`
-do
-  docker rm -f $container
-done
+docker ps -q -f name=refile | xargs -r -n 1 docker rm -f
 
 docker run --name refile -d \
   --restart unless-stopped \

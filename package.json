@@ -1,6 +1,6 @@
 {
   "name": "refile",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Redis-based content publisher",
   "main": "lib/index.js",
   "scripts": {

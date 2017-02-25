@@ -157,6 +157,25 @@ You can build as follows:
 docker build -t refile https://github.com/evanx/refile.git
 ```
 
+For a sample deployment script with the following `docker run` command, see https://github.com/evanx/refile/blob/master/bin/redeploy.sh
+```
+docker run --name refile -d \
+  --restart unless-stopped \
+  --network=host \
+  -v $home/volumes/refile/data:/data \
+  -e NODE_ENV=$NODE_ENV \
+  -e host=localhost \
+  -e expire=2 \
+  refile
+```
+where
+- the host's Redis instance is used since `--network=host`
+- the host's filesystem is used relative to a specified `$home` directory
+- refiled keys are expired after two seconds.
+
+
+### Test
+
 See `test/demo.sh` https://github.com/evanx/refile/blob/master/test/demo.sh
 ```
 redis-cli -h $encipherHost -p 6333 set user:evanxsummers '{"twitter":"evanxsummers"}'
@@ -169,7 +188,7 @@ appContainer=`docker run --name refile-app -d \
   evanxsummers/refile`
 ```
 
-Creates:
+Builds:
 - isolated network `refile-network`
 - isolated Redis instance named `refile-redis`
 - two `spiped` containers to test encrypt/decrypt tunnels
