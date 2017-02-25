@@ -11,7 +11,7 @@ done
 docker run --name refile -d \
   --restart unless-stopped \
   --network=host \
-  -v /refiledata:/data \
+  -v $HOME/volumes/refile/data:/data \
   -e NODE_ENV=$NODE_ENV \
   -e host=localhost \
   -e expire=8 \
