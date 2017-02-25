@@ -47,6 +47,6 @@
   docker logs $appContainer
   find ~/volumes/refile/data | grep '.gz$'
   zcat `find ~/volumes/refile/data | grep '.gz$' | tail -1` | jq
-  #docker rm -f refile-redis refile-app refile-decipher refile-encipher
-  #docker network rm refile-network
+  docker rm -f refile-redis refile-app refile-decipher refile-encipher
+  docker network rm refile-network
 )
