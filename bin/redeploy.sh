@@ -15,4 +15,5 @@ docker run --name refile -d \
   -e NODE_ENV=$NODE_ENV \
   -e host=localhost \
   -e expire=8 \
+  -e mode=minimal \
   refile
