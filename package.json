@@ -21,7 +21,7 @@
     "redis-app-rpf": "^0.6.11"
   },
   "devDependencies": {
-    "eslint": "^3.12.2"
+    "eslint": "^6.0.0"
   },
   "repository": {
     "type": "git",
